@@ -1,0 +1,89 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-go:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [auth-service, discovery-service, user-service, compliance-service, monitoring-service]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+      - name: Run tests
+        run: |
+          cd services/${{ matrix.service }}
+          go test -v -race -coverprofile=coverage.out ./...
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./services/${{ matrix.service }}/coverage.out
+
+  test-node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [paper-service, collaboration-service, export-service, integration-service]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          cd services/${{ matrix.service }}
+          npm ci
+      - name: Run tests
+        run: |
+          cd services/${{ matrix.service }}
+          npm test -- --coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+
+  test-python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [knowledge-graph-service, novelty-engine, gap-engine, ai-copilot-service, analytics-service]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          cd services/${{ matrix.service }}
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          cd services/${{ matrix.service }}
+          pytest --cov --cov-report=xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+      - name: Run tests
+        run: |
+          cd frontend
+          npm test -- --coverage
+      - name: Run linting
+        run: |
+          cd frontend
+          npm run lint
