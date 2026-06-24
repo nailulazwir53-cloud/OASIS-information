@@ -1,0 +1,21 @@
+{
+    "experimentalServices": {
+        "frontend": {
+            "root": "frontend",
+            "routePrefix": "/",
+            "framework": "nextjs"
+        },
+        "auth-service": {
+            "root": "services/auth-service",
+            "routePrefix": "/_/auth-service"
+        },
+        "knowledge-graph-service": {
+            "root": "services/knowledge-graph-service",
+            "routePrefix": "/_/knowledge-graph-service"
+        },
+        "paper-service": {
+            "root": "services/paper-service",
+            "routePrefix": "/_/paper-service"
+        }
+    }
+}
