@@ -1,6 +1,6 @@
-# OASIS-Research 🌴🏜️
+# ResearchOS
 
-## What is OASIS ?
+## What is ResearchOS?
 
 ResearchOS is a unified research intelligence platform combining:
 - Literature discovery (Sci-Hub + Google Scholar + arXiv)
