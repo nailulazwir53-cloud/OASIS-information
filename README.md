@@ -57,36 +57,6 @@ See "ARCHITECTURE.md" (./ARCHITECTURE.md) for complete system design.
 
 ---
 
-Development
-
-Running Services Individually
-
-# Auth Service
-cd services/auth-service
-make run
-
-# Discovery Service
-cd services/discovery-service
-make run
-
-# Paper Service
-cd services/paper-service
-npm run dev
-
-Testing
-
-make test
-
-make test-service SERVICE=auth-service
-
-Code Quality
-
-make lint
-
-make format
-
----
-
 Deployment
 
 Local Kubernetes
